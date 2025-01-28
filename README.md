@@ -1,71 +1,74 @@
-# cognitive-complexity README
+# Cognitive Complexity VS Code Extension
 
-This is the README for your extension "cognitive-complexity". After writing up a brief description, we recommend including the following sections.
+## Introduction
+
+The **Cognitive Complexity VS Code Extension** is a developer tool designed to enhance code readability and maintainability by analyzing and displaying the cognitive complexity of code blocks directly within the VS Code editor. By using the concept of cognitive complexity — a more accurate metric than traditional cyclomatic complexity — this extension helps developers identify areas of their code that may be difficult to understand and maintain.
+
+Cognitive complexity, as introduced by Sonar, focuses on measuring how challenging a piece of code is to follow, taking into account readability and logical structure. It addresses some of the shortcomings of cyclomatic complexity, making it a better metric for modern codebases.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- **Inline Cognitive Complexity Scores:**
 
-For example if there is an image subfolder under your extension project workspace:
+  - Displays cognitive complexity scores for methods, interfaces, and classes using CodeLens above the relevant code blocks.
+  - Underlines the names of blocks (e.g., method names) to visually indicate their complexity level.
+  - Configurable display options to suit your workflow.
 
-\!\[feature X\]\(images/feature-x.png\)
+- **File-Level Complexity Score:**
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+  - Shows the overall cognitive complexity score of the currently active file in the VS Code status bar.
 
-## Requirements
+- **Customizable Settings:**
+  - Allows developers to configure how scores are displayed (e.g., enable/disable CodeLens or block decorations).
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+## Why Cognitive Complexity?
 
-## Extension Settings
+Cognitive complexity measures how understandable and maintainable your code is by focusing on structural and logical readability. Unlike cyclomatic complexity, which only counts the number of possible execution paths, cognitive complexity also accounts for:
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+- Nesting levels of control structures.
+- Logical jumps and breaks in the code flow.
+- Excessively long or convoluted methods.
 
-For example:
+To learn more, check out [Sonar’s whitepaper on Cognitive Complexity](https://www.sonarsource.com/docs/CognitiveComplexity.pdf).
 
-This extension contributes the following settings:
+## Demos and Examples
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+### Example 1: High Complexity Method
 
-## Known Issues
+```typescript
+function processData(input: any): any {
+  if (input) {
+    for (let i = 0; i < input.length; i++) {
+      if (input[i].isValid) {
+        try {
+          processItem(input[i]);
+        } catch (error) {
+          console.error('Error processing item', error);
+        }
+      } else {
+        console.warn('Invalid item');
+      }
+    }
+  }
+  return null;
+}
+```
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- **Cognitive Complexity Score:** 11
+- **Why High Complexity?**
+  - Nested `if` and `for` structures.
+  - Logical jumps with `try/catch` and `else` branches.
+  - Multiple points where the code flow can diverge.
 
-## Release Notes
+### Example 2: Simple and Maintainable Method
 
-Users appreciate release notes as you update your extension.
+```typescript
+function processData(input: any[]): void {
+  input.filter((item) => item.isValid).forEach(processItem);
+}
+```
 
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+- **Cognitive Complexity Score:** 0
+- **Why Low Complexity?**
+  - Flat, linear structure.
+  - No nested control structures or branching logic.
